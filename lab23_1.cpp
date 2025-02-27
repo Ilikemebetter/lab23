@@ -14,12 +14,6 @@ char score2grade(int score){
     else return 'F';
 }
 
-string toUpperStr(string x){
-    string y = x;
-    for(unsigned i = 0; i < x.size();i++) y[i] = toupper(x[i]);
-    return y;
-}
-
 void importDataFromFile(string filename, vector<string> &names, vector<int> &scores, vector<char> &grades){
     ifstream source(filename);
     string textline;
@@ -46,32 +40,39 @@ void getCommand(string &command, string &key){
     key = k;
 }
 
-void searchName(vector<string> &names,vector<int> &scores,vector<char> &grades,string &key){
-    //bool notfound = true;
-    cout << "---------------------------------\n";
-    for(unsigned int i = 0;i < names.size();i++) {
-        if(key.compare(toUpperStr(names[i])) == 0) {
-            //notfound = false;
-            cout << names[i] << "'s" << " " << "score = " << scores[i] << endl;
-            cout << names[i] << "'s" <<" " << "grade = " << grades[i] << endl;
-            
-        }
-    }
-    if(notfound) cout << "Cannot found.\n";
-    cout << "---------------------------------\n";
+string toUpperStr(string x){
+    string y = x;
+    for(unsigned i = 0; i < x.size();i++) y[i] = toupper(x[i]);
+    return y;
 }
 
-void searchGrade(vector<string> &names,vector<int> &scores,vector<char> &grades,string &key){
-    bool notfound = true;
+
+void searchName(vector<string> names, vector<int> scores, vector<char> grades, string key){
     cout << "---------------------------------\n";
-    for(unsigned int i = 0;i < names.size();i++) {
-        if(key[0] == grades[i]) {
-            notfound = false;
-            cout << names[i] << " " << "(" << scores[i] << ")" << endl;
+    for(unsigned int i = 0; i < names.size(); i++){
+        if(key == toUpperStr(names[i])){
+            cout << names[i] << "'s score = " << scores[i] << endl;
+            cout << names[i] << "'s grade = " << grades[i] << endl;
+            cout << "---------------------------------\n";
+            return;
         }
     }
-    if(notfound) cout << "Cannot found.\n";
+    cout << "Cannot found." << endl;
     cout << "---------------------------------\n";
+
+}
+void searchGrade(vector<string> names, vector<int> scores, vector<char> grades, string key){
+    bool found = false;
+    cout << "---------------------------------\n";
+    for(unsigned int i = 0; i < names.size(); i++){
+        if(key[0] == grades[i]){
+            cout << names[i] << " (" << scores[i] << ")" << endl;
+            found = true;
+        }
+    }
+    if(!found) cout << "Cannot found." << endl;
+    cout << "---------------------------------\n";
+
 }
 
 int main(){
