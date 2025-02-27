@@ -20,22 +20,59 @@ string toUpperStr(string x){
     return y;
 }
 
-void importDataFromFile(){
-
+void importDataFromFile(string filename, vector<string> &names, vector<int> &scores, vector<char> &grades){
+    ifstream source(filename);
+    string textline;
+    while(getline(source,textline)) {
+        char format[] = "%[^:]: %d %d %d";
+        char name_eq[50];
+        int a,b,c;
+        sscanf(textline.c_str(), format, name_eq, &a, &b, &c);
+        int score_eq = a+b+c; 
+        char grade_eq = score2grade(score_eq);
+        names.push_back(name_eq);
+        scores.push_back(score_eq);
+        grades.push_back(grade_eq);
+    }
 }
 
-void getCommand(){
-
+void getCommand(string &command, string &key){
+    string input;
+    cout << "Please input your command: ";
+    char cmd[20] , k[100];
+    getline(cin, input);
+    sscanf(input.c_str(), " %s %[^:]",cmd,k);
+    command = cmd;
+    key = k;
 }
 
-void searchName(){
-
+void searchName(vector<string> &names,vector<int> &scores,vector<char> &grades,string &key){
+    bool notfound = true;
+    cout << "---------------------------------\n";
+    for(unsigned int i = 0;i < names.size();i++) {
+        if(key.compare(toUpperStr(names[i])) == 0) {
+            notfound = false;
+            cout << names[i] << "'s" << " " << "score = " << scores[i] << endl;
+            cout << names[i] << "'s" <<" " << "grade = " << grades[i] << endl;
+            
+        }
+    }
+    if(notfound) cout << "Cannot found.\n";
+    cout << "---------------------------------\n";
 }
 
-void searchGrade(){
-
+void searchGrade(vector<string> &names,vector<int> &scores,vector<char> &grades,string &key){
+    bool notfound = true;
+    cout << "---------------------------------\n";
+    for(unsigned int i = 0;i < names.size();i++) {
+        if(key[0] == grades[i]) {
+            notfound = false;
+            cout << names[i] << " " << "(" << scores[i] << ")" << endl;
+        }
+    }
+    if(notfound) cout << "Cannot found.\n";
+    cout << "---------------------------------\n";
 }
-
 
 int main(){
     string filename = "name_score.txt";
